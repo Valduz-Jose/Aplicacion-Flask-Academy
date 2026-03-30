@@ -62,5 +62,11 @@ def editar_curso(id_curso):
         
     return render_template('editar_curso.html', form=form, curso=curso)
 
+@app.route('/curso/eliminar/<int:id_curso>', methods=['POST'])
+def eliminar_curso(id_curso):
+    if CursoService.eliminar_curso(id_curso):
+        flash('¡Curso eliminado exitosamente!', 'success')
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run(debug=True)

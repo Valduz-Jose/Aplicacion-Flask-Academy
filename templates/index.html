@@ -16,6 +16,22 @@
         <p class="lead text-secondary">Gestión de Cursos Online</p>
       </div>
 
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+
       <div class="card shadow">
         <div
           class="card-header bg-dark d-flex justify-content-between align-items-center"
@@ -52,15 +68,66 @@
                       class="btn btn-outline-info btn-sm"
                       >Editar</a
                     >
-                    <button class="btn btn-outline-danger btn-sm" disabled>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal{{ curso.id_curso }}"
+                    >
                       Eliminar
                     </button>
+
+                    <div
+                      class="modal fade"
+                      id="deleteModal{{ curso.id_curso }}"
+                      tabindex="-1"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">
+                              ⚠️ Confirmar Eliminación
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body text-white">
+                            ¿Estás seguro de eliminar
+                            <strong>{{ curso.nombre }}</strong>?
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Cancelar
+                            </button>
+                            <form
+                              action="{{ url_for('eliminar_curso', id_curso=curso.id_curso) }}"
+                              method="POST"
+                              style="display: inline"
+                            >
+                              <button type="submit" class="btn btn-danger">
+                                Eliminar Definitivamente
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 {% else %}
                 <tr>
                   <td colspan="5" class="text-center text-muted">
-                    No hay cursos registrados todavía.
+                    No hay cursos registrados.
                   </td>
                 </tr>
                 {% endfor %}

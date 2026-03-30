@@ -24,3 +24,10 @@ class CursoService:
         curso.duracion = duracion
         db.session.commit()
         return curso
+
+    @staticmethod
+    def eliminar_curso(id_curso):
+        curso = Curso.query.get_or_404(id_curso)
+        db.session.delete(curso)
+        db.session.commit()
+        return True
