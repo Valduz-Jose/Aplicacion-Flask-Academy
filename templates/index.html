@@ -9,28 +9,63 @@
       rel="stylesheet"
     />
   </head>
-
   <body>
     <div class="container mt-5">
-      <div class="text-center">
+      <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-warning">🎓 Flask Academy</h1>
-        <p class="lead text-secondary">
-          Bienvenido al portal de gestión de cursos más moderno.
-        </p>
-        <hr class="my-4 border-warning" />
+        <p class="lead text-secondary">Gestión de Cursos Online</p>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card shadow">
-            <div class="card-body text-center">
-              <h5 class="card-title">Estado del Sistema</h5>
-              <p class="card-text">
-                Flask se ha configurado correctamente y el modo oscuro está
-                activo.
-              </p>
-              <span class="badge bg-success">Conexión exitosa</span>
-            </div>
+      <div class="card shadow">
+        <div
+          class="card-header bg-dark d-flex justify-content-between align-items-center"
+        >
+          <h5 class="mb-0 text-warning">Lista de Cursos Disponibles</h5>
+          <a
+            href="{{ url_for('agregar_curso') }}"
+            class="btn btn-warning btn-sm"
+            >+ Nuevo Curso</a
+          >
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Curso</th>
+                  <th>Instructor</th>
+                  <th>Duración (hrs)</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for curso in cursos %}
+                <tr>
+                  <td>{{ curso.id_curso }}</td>
+                  <td class="fw-bold">{{ curso.nombre }}</td>
+                  <td>{{ curso.instructor }}</td>
+                  <td>{{ curso.duracion }}</td>
+                  <td>
+                    <a
+                      href="{{ url_for('editar_curso', id_curso=curso.id_curso) }}"
+                      class="btn btn-outline-info btn-sm"
+                      >Editar</a
+                    >
+                    <button class="btn btn-outline-danger btn-sm" disabled>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td colspan="5" class="text-center text-muted">
+                    No hay cursos registrados todavía.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
